@@ -1,6 +1,13 @@
 import sympy as sp
 
 
+def Mode_Select():
+    mode = str(input("Selecione o modo da calculadora: Convergente[0], Divergente[1]"))
+    if mode == 0:
+        return True
+    else:
+        return False
+
 def Point_Input():
     d = True
     Points = []
@@ -13,13 +20,16 @@ def Point_Input():
     return Points
 
 
-def Adding_Vectors(Points):
+def Adding_Vectors(Points, converge=False):
     n1 = [i for i in range(len(Points) - 1)]
     Final_Vectors = []
     for x in n1:
         TEMP = []
         for i, i2 in zip(Points[x], Points[-1]):
-            temp = i - i2
+            if converge:
+                temp = i2 - i
+            else:
+                temp = i - i2
             TEMP.append(temp)
         scalar = sum([x ** 2 for x in TEMP])
         TEMP.append(sp.root(scalar, 2))
@@ -46,7 +56,8 @@ def creating_equations(Vectors, Forces):
     return all_forces
         
 if __name__ == "__main__":
-    VECTORS = Adding_Vectors(Point_Input())
+    MODO = Mode_Select()
+    VECTORS = Adding_Vectors(Point_Input(), MODO)
 
     Desconhecidos = []
 
