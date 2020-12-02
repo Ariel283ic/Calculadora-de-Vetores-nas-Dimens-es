@@ -3,21 +3,24 @@ import sympy as sp
 
 def Mode_Select():
     mode = str(input("Selecione o modo da calculadora: Convergente[0], Divergente[1]"))
-    if mode == 0:
+    if mode == "0":
         return True
     else:
         return False
 
 def Point_Input():
-    d = True
-    Points = []
-    while d:
-        Point = [sp.S(i) for i in input("Valor do Ponto nos eixos X, Y e Z, separados por ',', utilizando . para numeros decimais:").split(',')]
-        Points.append(Point)
-        temp = int(input("Para adicionar mais pontos digite 1, para continuar digite 0: "))
-        if temp == 0:
-            d = False
-    return Points
+    lim_eixos = int(input("Número de eixos dos pontos, escreva 'continuar' para prosseguir. Exemplo: X,Y = 2; X,Y,Z = 3: "))
+    eixo, Coordinates, i, i2 = {1: "X", 2: "Y", 3: "Z"}, [], 1, 1
+    Point_Coordenate = input("Coordenada do Ponto-1 no eixo X: ")
+    while Point_Coordenate.lower() != "continuar":
+        Coordinates.append(sp.S(Point_Coordenate))
+        if i2 == lim_eixos:
+            i += 1
+            i2 = 1
+        else:
+            i2 += 1
+        Point_Coordenate = input("Coordenada do Ponto-%s no eixo %s: " % (i, eixo[i2]))
+    return [Coordinates[i:i+lim_eixos] for i in range(0, len(Coordinates), lim_eixos)]
 
 
 def Adding_Vectors(Points, converge=False):
